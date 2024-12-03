@@ -5,9 +5,7 @@ Main repository to track process documents generated while building the BitBattl
 
 ## Branching Standards
 
-This project will be using the gitflow model to manage it's branches.
-
-For more info on gitflow, read this [article](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+This project will be using the [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) model to manage branches.
 
 ---
 
