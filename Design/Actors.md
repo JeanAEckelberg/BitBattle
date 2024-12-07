@@ -10,7 +10,7 @@
 * Competition Playtesters
 
 ## During Competition
-* Competetors
+* Competitors
 * Spectators
 * Competition Supporters
 * Competition DBAs
