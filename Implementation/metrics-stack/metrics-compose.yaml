@@ -8,6 +8,7 @@ services:
     volumes:
       - /:/hostfs:ro
       # https://linuxbeast.com/blog/resolving-wsl-permission-denied-when-connecting-to-docker-daemon/#:~:text=If%20you%20are%20using%20Windows,access%20the%20Docker%20daemon%20socket.
+      # https://stackoverflow.com/questions/48957195/how-to-fix-docker-permission-denied
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
