@@ -22,7 +22,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 2560m
 
   kibana:
     image: docker.elastic.co/kibana/kibana:9.0.2
@@ -43,7 +43,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 1g
 
   logstash:
     image: docker.elastic.co/logstash/logstash:9.0.2
@@ -63,7 +63,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 1g
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:9.0.2
