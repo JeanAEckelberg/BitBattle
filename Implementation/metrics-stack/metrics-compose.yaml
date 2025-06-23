@@ -17,6 +17,10 @@ services:
     depends_on:
       jaeger:
         condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -35,6 +39,10 @@ services:
       - "4317"
     environment:
       - METRICS_STORAGE_TYPE=prometheus
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   prometheus:
     image: prom/prometheus:latest
@@ -53,6 +61,10 @@ services:
     restart: unless-stopped
     ports:
       - "9090:9090"
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   grafana:
     image: grafana/grafana
@@ -67,6 +79,10 @@ services:
     depends_on:
       - prometheus
       - jaeger
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
 volumes:
   grafana-storage: {}

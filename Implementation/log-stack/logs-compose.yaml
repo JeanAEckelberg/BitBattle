@@ -19,6 +19,10 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   kibana:
     image: docker.elastic.co/kibana/kibana:9.0.2
@@ -36,6 +40,10 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   logstash:
     image: docker.elastic.co/logstash/logstash:9.0.2
@@ -52,6 +60,10 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:9.0.2
@@ -67,6 +79,10 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
 
 volumes:
   elasticsearch-data:
