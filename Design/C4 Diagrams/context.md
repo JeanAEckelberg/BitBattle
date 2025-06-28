@@ -23,4 +23,3 @@ Rel(spectator, bit_battle, "Watches Matches, Gets Competition Stats")
 Rel(comp_supporter, bit_battle, "Check Telemetry and Fixes Issues to Ensure Competition Stability")
 @enduml
 ```
-
