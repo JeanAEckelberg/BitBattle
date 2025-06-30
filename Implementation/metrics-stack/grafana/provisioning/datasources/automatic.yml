@@ -11,7 +11,7 @@ datasources:
     type: elasticsearch
     access: proxy
     uid: ceppczokvptdsd
-    url: http://host.docker.internal:9200
+    url: http://elasticsearch:9200
     jsonData:
       includeFrozen: false
       logMessageField: message

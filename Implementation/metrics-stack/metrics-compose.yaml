@@ -79,6 +79,9 @@ services:
     depends_on:
       - prometheus
       - jaeger
+    networks:
+      - default
+      - elk
     deploy:
       resources:
         limits:
