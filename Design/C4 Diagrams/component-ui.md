@@ -10,8 +10,9 @@ Person_Ext(competitor, "Competitor")
 
 Container_Ext(user_service_ext, "User Service")
 Container_Ext(submission_service_ext, "Submission Service")
-Container_Ext(visualization_service_ext, "Visualization Service")
 Container_Ext(testing_service_ext, "Testing Service")
+Container_Ext(streaming_service_ext, "Streaming Service")
+
 System_Ext(docs_site_ext, "Docs Site")
 
 Container_Boundary(bit_battle_ui, "Bit Battle UI") {
@@ -25,6 +26,8 @@ Container_Boundary(bit_battle_ui, "Bit Battle UI") {
     Component(auth_guard, "Auth Guard", "TypeScript")
     Component(submission_service, "Submission Service", "TypeScript")
     Component(match_service, "Match Service", "TypeScript")
+    Component(admin_component, "Admin Component", "HTML, SCSS, TypeScript")
+    Component(streaming_service, "Streaming Service", "TypeScript")
 }
 
 Rel(spectator, visualization_component, "Watches Matches")
@@ -43,9 +46,13 @@ Rel(submission_component, auth_guard, "Blocks Unauthorized Users")
 Rel(submission_component, submission_service, "Submits Bots")
 Rel(submission_service, submission_service_ext, "Submits Bots", "POST")
 Rel(visualization_component, match_service, "Gets Visualization")
-Rel(match_service, visualization_service_ext, "Gets Visualization", "GET")
+Rel(match_service, streaming_service_ext, "Gets Visualization", "GET")
 Rel(testing_component, match_service, "Requests Test Match")
 Rel(match_service, testing_service_ext, "Requests Test Match", "POST")
 Rel(docs_component, docs_site_ext, "Embeds Content")
+Rel(admin_component, auth_guard, "Blocks Unauthorized Users")
+Rel(admin_component, streaming_service, "Changes Stream Options and Gets Stream")
+Rel(streaming_service, streaming_service_ext, "Changes Stream Options", "POST")
+Rel(streaming_service, streaming_service_ext, "Getes Stream", "WebSocket")
 @enduml
 ```
