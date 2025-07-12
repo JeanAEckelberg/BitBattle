@@ -411,7 +411,7 @@
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "auto",
   "schemaVersion": 41,
   "tags": [],
   "templating": {
