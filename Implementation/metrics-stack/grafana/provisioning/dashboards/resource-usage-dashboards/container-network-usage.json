@@ -118,7 +118,7 @@
           "useBackend": false
         }
       ],
-      "title": "Recieved Network Usage (MB)",
+      "title": "Received Network Usage (MB)",
       "type": "timeseries"
     },
     {
@@ -310,7 +310,7 @@
           "useBackend": false
         }
       ],
-      "title": "Dropped Recieved Network Usage (MB)",
+      "title": "Dropped Received Network Usage (MB)",
       "type": "timeseries"
     },
     {
