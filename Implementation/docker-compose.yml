@@ -1,0 +1,3 @@
+include:
+  - log-stack/logs-compose.yaml
+  - metrics-stack/metrics-compose.yaml

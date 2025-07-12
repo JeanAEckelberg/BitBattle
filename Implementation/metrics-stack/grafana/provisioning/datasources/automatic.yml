@@ -1,0 +1,35 @@
+# Configuration file version
+apiVersion: 1
+
+# Mark provisioned data sources for deletion if they are no longer in a provisioning file.
+prune: true
+
+# List of data sources to insert/update depending on what's
+# available in the database.
+datasources:
+  - name: elasticsearch
+    type: elasticsearch
+    access: proxy
+    uid: ceppczokvptdsd
+    url: http://elasticsearch:9200
+    jsonData:
+      includeFrozen: false
+      logMessageField: message
+      logLevelField: fields.level
+      maxConcurrentShardRequests: 5
+      timeField: '@timestamp'
+
+  - name: jaeger
+    type: jaeger
+    access: proxy
+    uid: beppel51orl6oc
+    url: http://host.docker.internal:16686/jaeger/ui
+
+  - name: prometheus
+    type: prometheus
+    access: proxy
+    uid: aeppcozk7n85cf
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST
