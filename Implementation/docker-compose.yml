@@ -1,3 +1,2 @@
-include:
-  - log-stack/logs-compose.yaml
-  - metrics-stack/metrics-compose.yaml
+include: 
+  - telemetry-stack/telemetry-compose.yaml

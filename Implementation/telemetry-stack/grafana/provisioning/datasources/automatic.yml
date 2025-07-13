@@ -7,17 +7,14 @@ prune: true
 # List of data sources to insert/update depending on what's
 # available in the database.
 datasources:
-  - name: elasticsearch
-    type: elasticsearch
+  - name: loki
+    type: loki
     access: proxy
     uid: ceppczokvptdsd
-    url: http://elasticsearch:9200
+    url: http://loki:3100
     jsonData:
-      includeFrozen: false
-      logMessageField: message
-      logLevelField: fields.level
-      maxConcurrentShardRequests: 5
-      timeField: '@timestamp'
+      timeout: 60
+      maxLines: 1000
 
   - name: jaeger
     type: jaeger

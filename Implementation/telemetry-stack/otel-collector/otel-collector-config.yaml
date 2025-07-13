@@ -7,6 +7,39 @@ receivers:
         endpoint: otel-collector:4318
   docker_stats:
     endpoint: unix:///var/run/docker.sock # (default)
+  filelog:
+    # include_file_path: true
+    include:
+      - /var/lib/docker/containers/*/*-json.log
+    operators:
+      - id: parser-docker
+        timestamp:
+          layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          parse_from: attributes.time
+        type: json_parser
+      - field: attributes.time
+        type: remove
+      - id: extract_metadata_from_docker_tag
+        parse_from: attributes.attrs.tag
+        regex: ^(?P<name>[^\|]+)\|(?P<image_name>[^\|]+)\|(?P<id>[^$]+)$
+        type: regex_parser
+        if: 'attributes?.attrs?.tag != nil'
+      - from: attributes.name
+        to: resource["docker.container.name"]
+        type: move
+        if: 'attributes?.name != nil'
+      - from: attributes.image_name
+        to: resource["docker.image.name"]
+        type: move
+        if: 'attributes?.image_name != nil'
+      - from: attributes.id
+        to: resource["docker.container.id"]
+        type: move
+        if: 'attributes?.id != nil'
+      - from: attributes.log
+        to: body
+        type: move 
+
   # Host metrics
   hostmetrics:
     root_path: /hostfs
@@ -82,6 +115,10 @@ exporters:
     endpoint: "http://prometheus:9090/api/v1/otlp"
     tls:
       insecure: true
+  otlphttp/logs:
+    endpoint: "http://loki:3100/otlp"
+    tls:
+      insecure: true
 service:
   pipelines:
     traces:
@@ -92,6 +129,11 @@ service:
       receivers: [hostmetrics, docker_stats, otlp]
       processors: [memory_limiter, batch]
       exporters: [otlphttp/prometheus]
+    logs:
+      receivers: [otlp, filelog]
+      processors: [memory_limiter, batch]
+      exporters: [otlphttp/logs]
+
   telemetry:
     metrics:
       level: detailed

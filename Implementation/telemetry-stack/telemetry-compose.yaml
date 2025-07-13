@@ -1,3 +1,10 @@
+x-default-logging: &logging
+ driver: "json-file"
+ options:
+   max-size: "5m"
+   max-file: "2"
+   tag: "{{.Name}}|{{.ImageName}}|{{.ID}}"
+
 services:
   # https://github.com/open-telemetry/opentelemetry-demo/blob/main/docker-compose.yml
   otel-collector:
@@ -10,6 +17,7 @@ services:
       # https://linuxbeast.com/blog/resolving-wsl-permission-denied-when-connecting-to-docker-daemon/#:~:text=If%20you%20are%20using%20Windows,access%20the%20Docker%20daemon%20socket.
       # https://stackoverflow.com/questions/48957195/how-to-fix-docker-permission-denied
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers/:/var/lib/docker/containers:ro
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
       - "4317:4317" # OTLP gRPC
@@ -21,6 +29,7 @@ services:
       resources:
         limits:
           memory: 512m
+    logging: *logging
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -43,9 +52,11 @@ services:
       resources:
         limits:
           memory: 512m
+    logging: *logging
 
   prometheus:
     image: prom/prometheus:latest
+    container_name: prometheus
     command:
       - --web.console.templates=/etc/prometheus/consoles
       - --web.console.libraries=/etc/prometheus/console_libraries
@@ -65,6 +76,19 @@ services:
       resources:
         limits:
           memory: 512m
+    logging: *logging
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - default
+    logging: *logging
 
   grafana:
     image: grafana/grafana
@@ -80,12 +104,12 @@ services:
       - prometheus
       - jaeger
     networks:
-      - default
-      - elk
+      - default 
     deploy:
       resources:
         limits:
           memory: 512m
+    logging: *logging
 
 volumes:
   grafana-storage: {}
