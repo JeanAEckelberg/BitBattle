@@ -8,7 +8,7 @@ receivers:
   docker_stats:
     endpoint: unix:///var/run/docker.sock # (default)
   filelog:
-    # include_file_path: true
+    include_file_path: true
     include:
       - /var/lib/docker/containers/*/*-json.log
     operators:
@@ -25,20 +25,20 @@ receivers:
         type: regex_parser
         if: 'attributes?.attrs?.tag != nil'
       - from: attributes.name
-        to: resource["docker.container.name"]
+        to: resource["service.name"]
         type: move
         if: 'attributes?.name != nil'
       - from: attributes.image_name
-        to: resource["docker.image.name"]
+        to: resource["service.image.name"]
         type: move
         if: 'attributes?.image_name != nil'
       - from: attributes.id
-        to: resource["docker.container.id"]
+        to: resource["service.instance.id"]
         type: move
         if: 'attributes?.id != nil'
       - from: attributes.log
         to: body
-        type: move 
+        type: move
 
   # Host metrics
   hostmetrics:

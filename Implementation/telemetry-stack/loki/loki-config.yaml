@@ -6,13 +6,10 @@ server:
 limits_config:
   otlp_config:
     resource_attributes:
-      ignore_defaults: true
       attributes_config:
         - action: index_label
           attributes:
-            - docker.container.name
-            - docker.container.id
-            - docker.image.name
+            - service.image.name
 
 common:
   ring:
