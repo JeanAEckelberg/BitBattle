@@ -56,7 +56,7 @@ services:
     logging: *logging
 
   prometheus:
-    image: prom/prometheus:v3.4.1
+    image: prom/prometheus:v3.4.2
     container_name: prometheus
     command:
       - --web.console.templates=/etc/prometheus/consoles
