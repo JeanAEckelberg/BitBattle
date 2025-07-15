@@ -2,9 +2,9 @@ receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: otel-collector:4317
+        endpoint: 0.0.0.0:4317
       http:
-        endpoint: otel-collector:4318
+        endpoint: 0.0.0.0:4318
   docker_stats:
     endpoint: unix:///var/run/docker.sock # (default)
   filelog:
@@ -105,7 +105,15 @@ processors:
     limit_percentage: 80
     spike_limit_percentage: 25
 extensions:
-  health_check: {}
+    health_check:
+      endpoint: "0.0.0.0:13133" 
+      path: "/health/status" 
+      response_body:
+        healthy: ready
+      check_collector_pipeline: 
+        enabled: true 
+        interval: "5m" 
+        exporter_failure_threshold: 5
 exporters:
   otlp:
     endpoint: "jaeger:4317"
@@ -120,6 +128,7 @@ exporters:
     tls:
       insecure: true
 service:
+  extensions: [health_check]
   pipelines:
     traces:
       receivers: [otlp]
@@ -133,7 +142,6 @@ service:
       receivers: [otlp, filelog]
       processors: [memory_limiter, batch]
       exporters: [otlphttp/logs]
-
   telemetry:
     metrics:
       level: detailed

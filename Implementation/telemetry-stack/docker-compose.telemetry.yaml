@@ -23,9 +23,13 @@ services:
     ports:
       - "4317:4317" # OTLP gRPC
       - "4318:4318" # OTLP HTTP
+      - "8888:8888" # Prometheus metrics exposed by the Collector
+      - "13133:13133" # Health Check
     depends_on:
       jaeger:
         condition: service_started
+      loki:
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -90,10 +94,12 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
-    networks:
-      - default
-    depends_on:
-      - otel-collector
+    healthcheck:
+      test: wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1
+      start_period: 20s
+      interval: 10s
+      timeout: 1s
+      retries: 12  # try for 2 minutes
     logging: *logging
 
   grafana:
@@ -110,8 +116,6 @@ services:
       - prometheus
       - jaeger
       - loki
-    networks:
-      - default 
     deploy:
       resources:
         limits:
