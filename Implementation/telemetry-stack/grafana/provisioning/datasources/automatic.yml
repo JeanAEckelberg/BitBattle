@@ -20,7 +20,7 @@ datasources:
     type: jaeger
     access: proxy
     uid: beppel51orl6oc
-    url: http://host.docker.internal:16686/jaeger/ui
+    url: http://jaeger:16686/jaeger/ui
 
   - name: prometheus
     type: prometheus
