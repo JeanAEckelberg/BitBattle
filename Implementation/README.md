@@ -3,6 +3,8 @@
 ## Requirements
 
 1. Ensure Docker is [installed](https://docs.docker.com/get-started/get-docker/)
+
+    a. If using Docker on Linux as a CLI, make sure Docker is enabled and started (`systemctl enable docker` and `systemctl start docker`) post installation
     
 2. Ensure your user has the appropriate permissions
     - [Linux instructions](https://stackoverflow.com/questions/48957195/how-to-fix-docker-permission-denied)
