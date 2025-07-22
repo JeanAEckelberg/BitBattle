@@ -6,7 +6,7 @@
 
 LAYOUT_WITH_LEGEND()
 
-title Component diagram for Internet Banking System - API Application
+title Gateway Component Diagram
 
 Container(cli, "CLI", "Kotlin", "Competitor CLI for Registering and Submitting Bots")
 Container(bit_battle_ui, "Bit Battle UI", "Angular", "Web UI for Interacting with the Competition")
@@ -20,7 +20,7 @@ Container(testing_service, "Testing Service", "Kotlin", "Starts Test Matches and
 Container(api_gateway, "API Gateway", "Kotlin - Spring Boot", "Centralizes and Aggregates Calls From the clients")
 
 Container_Boundary(api_gateway, "API Gateway") {
-    Component(aggregrator, "Aggregrator", "Class", "Used by routes to transform data for the frontend and backend's needs")
+    Component(aggregator, "Aggregator", "Class", "Used by routes to transform data for the frontend and backend's needs")
     Component(submission_route_locator, "Submission Route Locator", "Bean", "Hosts the routing for 'submission' APIs")
     Component(testing_route_locator, "Testing Route Locator", "Bean", "Hosts the routing for 'testing' APIs")
     Component(visualization_route_locator, "Visualization Route Locator", "Bean", "Hosts the routing for 'visualization' APIs")
