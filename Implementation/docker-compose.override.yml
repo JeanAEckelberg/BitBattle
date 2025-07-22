@@ -1,20 +1,19 @@
 x-default-logging: &logging
  driver: "json-file"
  options:
-   max-size: "5m"
-   max-file: "2"
-   tag: "{{.Name}}|{{.ImageName}}|{{.ID}}"
+   max-size: "100m"
+   max-file: "5"
+   tag: "{{.Name}}-container|{{.ImageName}}|{{.ID}}"
 
 services:
   orchestration-service:
-    image: ghcr.io/jeanaeckelberg/bitbattleorchestrationservice:0.0.6
+    image: ghcr.io/jeanaeckelberg/bitbattleorchestrationservice:0.0.10
     container_name: orchestration-service
     restart: unless-stopped
     ports:
       - "8080:8080"
     depends_on:
-      otel-collector:
-        condition: service_started
-      loki:
+      grafana:
         condition: service_healthy
-    logging: *logging
+    logging:
+      driver: local
