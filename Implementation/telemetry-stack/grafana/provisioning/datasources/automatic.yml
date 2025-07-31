@@ -1,0 +1,68 @@
+# Configuration file version
+apiVersion: 1
+
+# Mark provisioned data sources for deletion if they are no longer in a provisioning file.
+prune: true
+
+# List of data sources to insert/update depending on what's
+# available in the database.
+datasources:
+  - name: loki
+    type: loki
+    access: proxy
+    uid: loki
+    url: http://loki:3100
+    jsonData:
+      timeout: 60
+      maxLines: 1000
+      derivedFields:
+        # Field with internal link pointing to data source in Grafana.
+        # datasourceUid value can be anything, but it should be unique across all defined data source uids.
+        - datasourceUid: jaeger
+          matcherRegex: "trace_id"
+          matcherType: label
+          name: TraceID
+          # url will be interpreted as query for the datasource
+          url: '$${__value.raw}'
+          # optional for URL Label to set a custom display label for the link.
+          urlDisplayLabel: 'View Trace'
+
+  - name: jaeger
+    type: jaeger
+    access: proxy
+    uid: jaeger
+    url: http://jaeger:16686/jaeger/ui
+    jsonData:
+      tracesToLogsV2:
+        # Field with an internal link pointing to a logs data source in Grafana.
+        # datasourceUid value must match the uid value of the logs data source.
+        datasourceUid: 'loki'
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+        tags: ['service_name']
+        filterByTraceID: true
+        filterBySpanID: true
+        customQuery: true
+        query: 'method="$${__span.tags.method}"'
+      tracesToMetrics:
+        datasourceUid: 'prom'
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+        tags: [{ key: 'service_name' }, { key: 'job' }]
+      nodeGraph:
+        enabled: true
+      traceQuery:
+        timeShiftEnabled: true
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+      spanBar:
+        type: 'Duration'
+
+  - name: prometheus
+    type: prometheus
+    access: proxy
+    uid: prom
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST

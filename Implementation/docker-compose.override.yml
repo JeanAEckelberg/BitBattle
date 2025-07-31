@@ -1,4 +1,19 @@
+x-default-logging: &logging
+ driver: "json-file"
+ options:
+   max-size: "100m"
+   max-file: "5"
+   tag: "{{.Name}}-container|{{.ImageName}}|{{.ID}}"
+
 services:
-  grafana:
+  orchestration-service:
+    image: ghcr.io/jeanaeckelberg/bitbattleorchestrationservice:0.0.10
+    container_name: orchestration-service
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
     depends_on:
-      - elasticsearch
+      grafana:
+        condition: service_healthy
+    logging:
+      driver: local
