@@ -1,4 +1,22 @@
+x-default-logging: &logging
+ driver: "json-file"
+ options:
+   max-size: "100m"
+   max-file: "5"
+   tag: "{{.Name}}-container|{{.ImageName}}|{{.ID}}"
+
 include: 
   - telemetry-stack/docker-compose.telemetry.yaml
 
-
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    logging: *logging
