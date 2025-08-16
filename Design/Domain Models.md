@@ -33,7 +33,7 @@ object "Submission" as s {
     IsActive: bit
 }
 
-object "Annnouncement" as a {
+object "Announcement" as a {
     Id: int
     Title: nvarchar(100)
     Message: nvarchar(511)
