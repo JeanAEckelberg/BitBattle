@@ -14,10 +14,10 @@ services:
     command: ["--config=/etc/otel-collector-config.yaml"]
     user: 0:0
     volumes:
-      - /:/hostfs:ro
+      # - /:/hostfs:ro
       # https://linuxbeast.com/blog/resolving-wsl-permission-denied-when-connecting-to-docker-daemon/#:~:text=If%20you%20are%20using%20Windows,access%20the%20Docker%20daemon%20socket.
       # https://stackoverflow.com/questions/48957195/how-to-fix-docker-permission-denied
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/lib/docker/containers/:/var/lib/docker/containers:ro
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
@@ -32,6 +32,8 @@ services:
       resources:
         limits:
           memory: 512m
+    networks:
+      - telemetry-internal
     logging: *logging
 
   jaeger:
@@ -41,6 +43,7 @@ services:
     command: ["--config", "/jaeger/config.yaml"]
     volumes:
       - ./jaeger/jaeger-config.yaml:/jaeger/config.yaml
+      - jaeger-data:/tmp
     ports:
       - "16686:16686" # Web UI
       - "4317"
@@ -51,6 +54,8 @@ services:
       retries: 12  # try for 1 minute
     environment:
       - METRICS_STORAGE_TYPE=prometheus
+    networks:
+      - telemetry-internal
     deploy:
       resources:
         limits:
@@ -72,11 +77,12 @@ services:
       - --enable-feature=exemplar-storage
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     restart: unless-stopped
     ports:
       - "9090:9090"
     healthcheck:
-      test: wget -q -t 1 -O - http://localhost:9090/-/healthy | grep -q "Prometheus Server is Healthy." # || exit 1
+      test: wget -q -t 1 -O - http://localhost:9090/-/healthy | grep -q "Prometheus Server is Healthy."
       interval: 5s
       timeout: 1s
       retries: 12  # try for 1 minute
@@ -85,6 +91,8 @@ services:
         condition: service_healthy
       otel-collector:
         condition: service_started
+    networks:
+      - telemetry-internal
     deploy:
       resources:
         limits:
@@ -92,19 +100,65 @@ services:
     logging: *logging
 
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:3.5.9 # Loki 3.6.x currently has broken it's healthcheck, 2025-12-24
     container_name: loki
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
+      - loki-storage:/loki
+    networks:
+      - telemetry-internal
     healthcheck:
       test: wget  -q -t 1 -O - http://localhost:3100/ready | grep -q -w ready || exit 1
       interval: 5s
       timeout: 1s
       retries: 12  # try for 1 minute
     logging: *logging
+
+  nodeexporter:
+    image: prom/node-exporter:latest
+    container_name: nodeexporter
+    restart: always
+    volumes:
+      - /:/host:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/host'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|var|run|snap)($$|/)'
+    pid: host
+    networks:
+      - telemetry-internal
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    logging:
+      driver: local
+  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    restart: always
+    networks:
+      - telemetry-internal
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    logging:
+      driver: local
 
   grafana:
     image: grafana/grafana
@@ -123,6 +177,8 @@ services:
         condition: service_healthy
       loki:
         condition: service_healthy
+    networks:
+      - telemetry-internal
     healthcheck:
       test: curl -f http://otel-collector:13133 && curl -f http://localhost:3000/api/health || exit 1  # Test for otel-collector health here since the otel-collector image can not do it itself
       interval: 5s
@@ -134,5 +190,15 @@ services:
           memory: 512m
     logging: *logging
 
+  
+
 volumes:
   grafana-storage: {}
+  loki-storage: {}
+  prometheus-data: {}
+  jaeger-data: {}
+
+networks:
+  telemetry-internal:
+    driver: bridge
+    internal: true

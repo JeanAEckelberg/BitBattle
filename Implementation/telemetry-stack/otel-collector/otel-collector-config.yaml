@@ -6,9 +6,6 @@ receivers:
       http:
         endpoint: 0.0.0.0:4318
 
-  docker_stats:
-    endpoint: unix:///var/run/docker.sock # (default)
-
   filelog:
     include_file_path: true
     include:
@@ -44,7 +41,7 @@ receivers:
       - id: recombine
         type: recombine
         combine_field: body
-        is_first_entry: body matches "^(time=|level=.*? ts=|logger=.*? t=)?\\d{4}-\\d{2}-\\d{2}T\\d{2}"
+        is_first_entry: body matches "^(time=|level=.*? ts=|logger=.*? t=)?\\d{4}-\\d{2}-\\d{2}[T| ]\\d{2}"
       - type: json_parser
         if: body matches "^{.*}$"
         severity:
@@ -52,72 +49,36 @@ receivers:
           mapping: 
             info: Information
             warn: Warning
-      # - type: key_value_parser
-      #   pair_delimiter: " "
-      #   severity:
-      #     parse_from: attributes.Level
-      #     mapping: 
-      #       info: Information
-      #       warn: Warning
 
-  # Host metrics
-  hostmetrics:
-    root_path: /hostfs
-    scrapers:
-      cpu:
-        metrics:
-          system.cpu.utilization:
-            enabled: true
-      disk:
-      load:
-      filesystem:
-        exclude_mount_points:
-          mount_points:
-            - /dev/*
-            - /proc/*
-            - /sys/*
-            - /run/k3s/containerd/*
-            - /var/lib/docker/*
-            - /var/lib/kubelet/*
-            - /snap/*
-          match_type: regexp
-        exclude_fs_types:
-          fs_types:
-            - autofs
-            - binfmt_misc
-            - bpf
-            - cgroup2
-            - configfs
-            - debugfs
-            - devpts
-            - devtmpfs
-            - fusectl
-            - hugetlbfs
-            - iso9660
-            - mqueue
-            - nsfs
-            - overlay
-            - proc
-            - procfs
-            - pstore
-            - rpc_pipefs
-            - securityfs
-            - selinuxfs
-            - squashfs
-            - sysfs
-            - tracefs
-          match_type: strict
-      memory:
-        metrics:
-          system.memory.utilization:
-            enabled: true
-      network:
-      paging:
-      processes:
-      process:
-        mute_process_exe_error: true
-        mute_process_io_error: true
-        mute_process_user_error: true
+  postgresql:
+    endpoint: postgres:5432
+    transport: tcp
+    username: ${env:POSTGRES_OTEL_USER}
+    password: ${env:POSTGRES_OTEL_PASSWORD}
+    tls:
+      insecure: true
+    connection_pool:
+      max_idle_time: 10m
+      max_lifetime: 0
+      max_idle: 2
+      max_open: 5
+    events:
+      db.server.query_sample:
+        enabled: true
+      db.server.top_query:
+        enabled: true
+    query_sample_collection:
+      max_rows_per_query: 100
+    top_query_collection:
+      max_rows_per_query: 100
+      top_n_query: 100
+    collection_interval: 30s
+    initial_delay: 30s
+    metrics:
+      postgresql.deadlocks:
+        enabled: true
+      postgresql.database.locks:
+        enabled: true
 
 processors:
   batch:
@@ -125,6 +86,27 @@ processors:
     check_interval: 5s
     limit_percentage: 80
     spike_limit_percentage: 25
+  resource/postgresql:
+    attributes:
+      - key: service.name
+        value: "postgres" # The name you want to appear in your backend
+        action: upsert
+  filter:
+    error_mode: ignore
+    spans:
+      exclude:
+        match_type: regexp
+        attributes:
+          - key: db.statement
+            value: ".*otel-collector-ignore.*"
+  transform:
+    error_mode: ignore
+    log_statements:
+    - set(log.severity_text, "DEBUG")
+    - replace_all_matches(log.attributes, "/user/*/list/*", "/user/{userId}/list/{listId}")
+    - replace_all_patterns(log.attributes, "value", "/account/\\d{4}", "/account/{accountId}")
+    - set(log.body, log.attributes["db.query.text"])
+    - delete_key(log.attributes, "db.query.text")
 
 extensions:
     health_check:
@@ -156,12 +138,20 @@ service:
       processors: [memory_limiter, batch]
       exporters: [otlp/jaeger]
     metrics:
-      receivers: [hostmetrics, docker_stats, otlp]
+      receivers: [otlp]
       processors: [memory_limiter, batch]
+      exporters: [otlphttp/prometheus]
+    metrics/postgres:
+      receivers: [postgresql]
+      processors: [resource/postgresql, memory_limiter, batch, filter]
       exporters: [otlphttp/prometheus]
     logs:
       receivers: [otlp, filelog]
       processors: [memory_limiter, batch]
+      exporters: [otlphttp/logs]
+    logs/postgres:
+      receivers: [postgresql]
+      processors: [resource/postgresql, memory_limiter, batch, filter, transform]
       exporters: [otlphttp/logs]
 
   telemetry:

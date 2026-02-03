@@ -17,11 +17,11 @@ common:
     kvstore:
       store: inmemory
   replication_factor: 1
-  path_prefix: /tmp/loki
+  path_prefix: /loki
 
 schema_config:
   configs:
-  - from: 2020-05-15
+  - from: 2025-05-15
     store: tsdb
     object_store: filesystem
     schema: v13
@@ -31,4 +31,4 @@ schema_config:
 
 storage_config:
   filesystem:
-    directory: /tmp/loki/chunks
+    directory: /loki/chunks

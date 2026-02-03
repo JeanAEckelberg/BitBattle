@@ -1,4 +1,3 @@
 include: 
   - telemetry-stack/docker-compose.telemetry.yaml
-
-
+  - core/docker-compose.core.yaml

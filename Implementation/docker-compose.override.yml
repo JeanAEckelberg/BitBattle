@@ -1,19 +1,41 @@
-x-default-logging: &logging
- driver: "json-file"
- options:
-   max-size: "100m"
-   max-file: "5"
-   tag: "{{.Name}}-container|{{.ImageName}}|{{.ID}}"
-
 services:
-  orchestration-service:
-    image: ghcr.io/jeanaeckelberg/bitbattleorchestrationservice:0.0.10
-    container_name: orchestration-service
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
+  otel-collector:
+    environment:
+      POSTGRES_OTEL_USER: otel
+      POSTGRES_OTEL_PASSWORD: otelpassword
+    networks:
+      - core
+  postgres:
+    networks:
+      - core
+  postgres-exporter:
+    networks:
+      - core
+  rabbitmq:
+    networks:
+      - core
+      - available-to-host
+  prometheus:
     depends_on:
-      grafana:
+      rabbitmq:
         condition: service_healthy
-    logging:
-      driver: local
+    networks:
+      - core
+  grafana:
+    networks:
+      - available-to-host
+  arcane:
+    networks:
+      - available-to-host
+  adminer:
+    networks:
+      - available-to-host
+
+networks:
+  core:
+    driver: bridge
+    name: core
+  
+  available-to-host:
+    driver: bridge
+    attachable: false
