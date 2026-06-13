@@ -47,45 +47,45 @@ object "AnnouncementLevel" as al {
 
 
 object "Tournament" as tt {
-	Id: int
-	StartUtcDateTime: datetime2
-	IsFinished: bit
-	DivisionId: int
+    Id: int
+    StartUtcDateTime: datetime2
+    IsFinished: bit
+    DivisionId: int
 }
 
 object "TournamentResult" as tr {
-	Id: int
-	TournamentId: int
-	TeamId: int
-	SubmissionId: int
-	Score: decimal(14,4)
+    Id: int
+    TournamentId: int
+    TeamId: int
+    SubmissionId: int
+    Score: decimal(14,4)
 }
 
 object "Match" as m {
-	Id: int
-	TournamentId: int
-	StartUtcDateTime: datetime2
-	EndUtcDateTime: datetime2
+    Id: int
+    TournamentId: int
+    StartUtcDateTime: datetime2
+    EndUtcDateTime: datetime2
 }
 
 object "MatchResult" as mr {
-	Id: int
-	MatchId: int
-	TeamId: int
-	Score: decimal(14,4)
+    Id: int
+    MatchId: int
+    TeamId: int
+    Score: decimal(14,4)
 }
 
 object "Game" as g {
     Id: int
-	StartUtcDateTime: datetime2
-	EndUtcDateTime: datetime2
+    StartUtcDateTime: datetime2
+    EndUtcDateTime: datetime2
 }
 
 object "GameResult" as gr {
     Id: int
     GameId: int
     TeamId: int
-	Score: decimal(14,4)
+    Score: decimal(14,4)
 }
 
 object "GameStateLog" as gsl {

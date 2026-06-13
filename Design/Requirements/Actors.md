@@ -53,6 +53,7 @@
 
 ### Competition DBA
 
+- Competition DBA (Database Administrator)
 - View data throughout the competition and monitor data integrity
 - Manually fix data if any issues are encountered during the competition
 - Act upon competition metadata
