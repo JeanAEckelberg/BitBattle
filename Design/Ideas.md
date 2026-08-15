@@ -11,11 +11,11 @@
 
 #### Tournament Runner Process/Logic
 
-1. Waits until a submission is in queue, then runs a tournament against the active submission (if it exists).
+1. Waits until a submission is in queue, then runs a tournament against the submitting team's highest-scoring submission (if it exists).
 2. Then, runs the same tournament submission set/entity against the current submission.
-3. The best performing submission becomes the active submission.
+3. The best performing submission becomes the highest-scoring submission.
    - Current submission is still retained for final tournament run.
-   - Re-upload or make ui element to make current submission the active submission (could be a per-team toggle/prompt).
+   - Default selection for final tournament is highest-scoring, but a team can select current submission instead.
 4. Once finished, it takes next queued submission, and repeats.
 
 ### Possible constraints
