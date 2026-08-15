@@ -99,77 +99,17 @@ Create Acceptance Criteria using 3 C's
 
 ## During Competition
 
-### Competition DBA --NEEDS REVIEW
+### Competition DBA --DONE
 
-```markdown
+- As a [Competition DBA](./Actors.md#competition-dba), I want to be able to make changes to data while the [competition](../Definitions.md#competition) is running, so that I can fix issues as they arise.
 
-1: As a [Competition DBA](./Actors.md#competition-dba), I want to make quick changes to data, so that _____.
+- As a [Competition DBA](./Actors.md#competition-dba), I want [competitors](./Actors.md#competitor) to be able to self-service common data issues (i.e. password reset), so that I can focus on more complex issues.
 
-! As a [Competition DBA](./Actors.md#competition-dba), I want to make quick changes to data, so that I can assist competitors (who cannot be trusted with access to the data) without interrupting the competition's flow.
+- As a [Competition DBA](./Actors.md#competition-dba), I want to be able to safely query data throughout the [competition](../Definitions.md#competition), so I can report on information while the [competition](../Definitions.md#competition) is running.
 
----
-
-2: As a [Competition DBA](./Actors.md#competition-dba), I want to be able to query data throughout the [competition](../Definitions.md#competition) so I can report on information on the fly.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to be able to query data throughout the [competition](../Definitions.md#competition) so I can report on information on the fly.
+- As a [Competition DBA](./Actors.md#competition-dba), I want a well defined database schema storing [competition](../Definitions.md#competition) data (see [Database Requirements](./Database.md)), so that the [competition](../Definitions.md#competition) can be administered. 
 
 ---
-
-3: As a [Competition DBA](./Actors.md#competition-dba), I want to be able commit data changes while the application is running, so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to be able commit data changes while the application is running, so that _____.
-
----
-
-4: As a [Competition DBA](./Actors.md#competition-dba), I want to store the [teams](../Definitions.md#team) that are competing, so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to store the [teams](../Definitions.md#team) that are competing, so that _____.
-
----
-
-5: As a [Competition DBA](./Actors.md#competition-dba), I want to store the [games](../Definitions.md#game) and points awarded to the [teams](../Definitions.md#team), so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to store the [games](../Definitions.md#game) and points awarded to the [teams](../Definitions.md#team), so that _____.
-
----
-
-6: As a [Competition DBA](./Actors.md#competition-dba), I want to know which [teams](../Definitions.md#team) are competing in a [game](../Definitions.md#game), so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to know which [teams](../Definitions.md#team) are competing in a [game](../Definitions.md#game), so that _____.
-
----
-
-7: As a [Competition DBA](./Actors.md#competition-dba), I want to see the changes in the GameState during a [game](../Definitions.md#game) so that it can be visualized.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to see the changes in the GameState during a [game](../Definitions.md#game) so that it can be visualized.
-
----
-
-8: As a [Competition DBA](./Actors.md#competition-dba), I want to know what organization each [team](../Definitions.md#team) is from, so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to know what organization each [team](../Definitions.md#team) is from, so that _____.
-
----
-
-9: As a [Competition DBA](./Actors.md#competition-dba), I want to know the organizations competing in this [competition](../Definitions.md#competition), so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to know the organizations competing in this [competition](../Definitions.md#competition), so that _____.
-
----
-
-10: As a [Competition DBA](./Actors.md#competition-dba), I want to know what category a [team](../Definitions.md#team) belongs to, so that I can award different prize categories.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to know what category a [team](../Definitions.md#team) belongs to, so that I can award different prize categories.
-
----
-
-11: As a [Competition DBA](./Actors.md#competition-dba), I want to be able to see the results of a specific [tournament](../Definitions.md#tournament), so that _____.
-
-As a [Competition DBA](./Actors.md#competition-dba), I want to be able to see the results of a specific [tournament](../Definitions.md#tournament), so that _____.
-
----
-
-```
 
 ### Competition Host --DONE
 
@@ -182,6 +122,9 @@ As a [Competition DBA](./Actors.md#competition-dba), I want to be able to see th
 - As a [Competition Host](./Actors.md#competition-host), I want to be able to schedule key [competition](../Definitions.md#competition) events and announcements to occur without writing specific code, so that I can set the pace of the [competition](../Definitions.md#competition) without additional technical burden.
 
 - As a [Competition Host](./Actors.md#competition-host), I want an easy way to send announcements to [competitors](./Actors.md#competitor) and/or [spectators](./Actors.md#spectator), so that I can quickly [promulgate](https://www.merriam-webster.com/dictionary/promulgate) competition information.
+
+- As a [Competition Host](./Actors.md#competition-host), I want to know what category a [team](../Definitions.md#team) belongs to, so that I can award different prize categories.
+
 
 ---
 
