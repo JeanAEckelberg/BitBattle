@@ -62,6 +62,7 @@
 
 - Provide information about the engine and the competition to competitors and spectators.
 - Monitor state of the competition.
+- Responsible for live patching/bug-chasing as the competition is running.
 
 ### Competitor
 
