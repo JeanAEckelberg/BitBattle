@@ -9980,7 +9980,7 @@
             "type": "prometheus",
             "uid": "${ds_prometheus}"
           },
-          "description": "Shows how many disk sectors are discarded (TRIMed) per second. Useful for monitoring SSD behavior and storage efficiency",
+          "description": "Shows how many disk sectors are discarded (trimmed) per second. Useful for monitoring SSD behavior and storage efficiency",
           "fieldConfig": {
             "defaults": {
               "color": {

@@ -24,7 +24,7 @@ Starting at the macro level, these "-ilities" define the abstract concepts that 
 3. Compatibility
     > Can the software be used with other software? Does it have a clear way to work with hardware if needed? Software should be designed so that more software can be made on top of it. 
 4. Usability
-    > Is the software clear and easy to use? Can users learn the software quickly? Is the software protected from user stupidity? Is the software accessable to all?
+    > Is the software clear and easy to use? Can users learn the software quickly? Is the software protected from user stupidity? Is the software accessible to all?
 5. Reliability
     > Is the software able to maintain the appropriate amount of uptime? Can it recover in the event of a fault? Can it retrieve data that may have been lost in the event of a fault?
 6. Security
@@ -50,7 +50,7 @@ For More Information:
 DRY
 ---
 
-Zooming way in, let's talk about D.R.Y, a.k.a Don't Repeat Yourself. This is a much more concrete concept than the aformentioned Software "-ilities"; However, it's full depth is often lost. The DRY principle states, "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system." Seems simple enough right? The number of times I have to fix something at work because someone did a quick "Ctrl+C, Ctrl+V", or worse, wrote a new application without appropriately syncing up the old application to centralize logic, is far higher than I ever anticipated. It is imperative that logic and data has a single source of truth. Another similar, but more forgiving, principle is the rule of three, which states that two chunks of similar code is okay, but three and it is time to refactor.
+Zooming way in, let's talk about D.R.Y, a.k.a Don't Repeat Yourself. This is a much more concrete concept than the aforementioned Software "-ilities"; However, it's full depth is often lost. The DRY principle states, "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system." Seems simple enough right? The number of times I have to fix something at work because someone did a quick "Ctrl+C, Ctrl+V", or worse, wrote a new application without appropriately syncing up the old application to centralize logic, is far higher than I ever anticipated. It is imperative that logic and data has a single source of truth. Another similar, but more forgiving, principle is the rule of three, which states that two chunks of similar code is okay, but three and it is time to refactor.
 
 
 For More Information:
