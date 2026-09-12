@@ -8,19 +8,26 @@
   - [Best Practices to Document Non-Functional Requirements](#best-practices-to-document-non-functional-requirements)
   - [The Software "-ilities"](#the-software--ilities)
 - [0000: Functional Suitability](#0000-functional-suitability)
-  - [0020:  Predefined Engine](#0020--predefined-engine)
+  - [% 0020:  Predefined Engine](#-0020--predefined-engine)
 - [1000: Performance Efficiency](#1000-performance-efficiency)
-  - [% 1100: Time Behaviour](#-1100-time-behaviour)
+  - [% 1100: Time Behavior](#-1100-time-behavior)
     - [1110: Tournament Execution Speed](#1110-tournament-execution-speed)
+    - [1120: Match Execution Speed](#1120-match-execution-speed)
   - [% 1200: Resource Utilization](#-1200-resource-utilization)
+    - [1210: Memory Utilization](#1210-memory-utilization)
+    - [1220: CPU Utilization](#1220-cpu-utilization)
+    - [1230: Disk Space](#1230-disk-space)
   - [% 1300: Capacity](#-1300-capacity)
     - [1310: Number of Teams in a Competition](#1310-number-of-teams-in-a-competition)
+  - [% Client requirements?](#-client-requirements)
 - [2000: Compatibility](#2000-compatibility)
   - [% 2100: Co-existence](#-2100-co-existence)
+    - [2110: System Ports](#2110-system-ports)
   - [% 2200: Interoperability](#-2200-interoperability)
-  - [2210: Engine Implementation](#2210-engine-implementation)
+  - [! 2210: Engine Implementation](#-2210-engine-implementation)
 - [3000: Usability](#3000-usability)
   - [% 3100: Recognizability](#-3100-recognizability)
+    - [3110: Project Repository Visibility](#3110-project-repository-visibility)
   - [% 3200: Learnability](#-3200-learnability)
     - [3210: Contribution and Development Guide](#3210-contribution-and-development-guide)
     - [3220: Competition Setup/Development](#3220-competition-setupdevelopment)
@@ -30,21 +37,28 @@
   - [% 3400: User Error Protection](#-3400-user-error-protection)
     - [3410: Administration Safety](#3410-administration-safety)
   - [% 3500: UI Aesthetics](#-3500-ui-aesthetics)
+    - [3510: Theming](#3510-theming)
   - [% 3600: Accessibility](#-3600-accessibility)
+    - [3610: High Contrast Theme](#3610-high-contrast-theme)
+    - [3620: Dark \& Light Modes](#3620-dark--light-modes)
 - [4000: Reliability](#4000-reliability)
   - [% 4100: Maturity](#-4100-maturity)
+    - [4110: Release Model](#4110-release-model)
   - [% 4200: Availability](#-4200-availability)
   - [4210: System Runtime](#4210-system-runtime)
   - [% 4300: Fault Tolerance](#-4300-fault-tolerance)
     - [4310: Exception Handling](#4310-exception-handling)
   - [% 4400: Recoverability](#-4400-recoverability)
-    - [! 4410: Retry Policies](#-4410-retry-policies)
+    - [4410: Retry Policies](#4410-retry-policies)
     - [4420: Restarting](#4420-restarting)
 - [5000: Security](#5000-security)
-  - [5020: Database Safety](#5020-database-safety)
+  - [! 5020: Database Safety](#-5020-database-safety)
   - [% 5100: Confidentiality](#-5100-confidentiality)
     - [% 5110: Database Access](#-5110-database-access)
+    - [% Hash Passwords](#-hash-passwords)
   - [% 5200: Integrity](#-5200-integrity)
+    - [5210: Containment](#5210-containment)
+    - [% 5220: Data Corruption](#-5220-data-corruption)
   - [% 5300: Non-repudiation](#-5300-non-repudiation)
     - [5310: Logs](#5310-logs)
       - [5311: Central Log Storage](#5311-central-log-storage)
@@ -61,19 +75,20 @@
     - [5340: Alerts](#5340-alerts)
       - [5341: Notifications](#5341-notifications)
   - [% 5400: Accountability](#-5400-accountability)
+    - [5410: User Identifier In Logs](#5410-user-identifier-in-logs)
   - [% 5500: Authenticity](#-5500-authenticity)
+    - [5510: Log In System](#5510-log-in-system)
 - [6000: Maintainability](#6000-maintainability)
-  - [6100: Build Maintainability](#6100-build-maintainability)
-  - [% 6200: Testability](#-6200-testability)
-    - [6210: Test Execution](#6210-test-execution)
-    - [6220: Automated Test Execution](#6220-automated-test-execution)
-    - [6230: Applying Code Changes](#6230-applying-code-changes)
-    - [6240: Local Validation](#6240-local-validation)
-    - [6241: Select Local Validation](#6241-select-local-validation)
-  - [% 6300: Modularity](#-6300-modularity)
-  - [% 6400: Reusability](#-6400-reusability)
-  - [% 6500: Analysability](#-6500-analysability)
-  - [% 6600: Modifiability](#-6600-modifiability)
+  - [% 6100: Testability](#-6100-testability)
+    - [6110: Test Execution](#6110-test-execution)
+    - [6120: Automated Test Execution](#6120-automated-test-execution)
+    - [6130: Applying Code Changes](#6130-applying-code-changes)
+    - [6140: Local Validation](#6140-local-validation)
+    - [6141: Select Local Validation](#6141-select-local-validation)
+  - [% 6200: Modularity](#-6200-modularity)
+  - [% 6300: Reusability](#-6300-reusability)
+  - [% 6400: Analysability](#-6400-analysability)
+  - [% 6500: Modifiability](#-6500-modifiability)
 - [7000: Portability](#7000-portability)
   - [% 7100: Adaptability](#-7100-adaptability)
     - [7110: Operating Systems](#7110-operating-systems)
@@ -84,7 +99,7 @@
     - [7220: Uninstaller](#7220-uninstaller)
     - [% 7230: Skill](#-7230-skill)
     - [7240: Local Environment](#7240-local-environment)
-  - [% 7300: Replaceability](#-7300-replaceability)
+  - [7300: Replaceability](#7300-replaceability)
 
 ---
 
@@ -171,7 +186,9 @@ For More Information:
 <!-- Functional Suitability pertains to the capability system or computer program to deliver functions that precisely address both explicit and implicit user requirements. -->
 <!-- Probably should remove this as it is covered by the user stories -->
 
-### 0020:  Predefined Engine
+Covered by User Stories
+
+### % 0020:  Predefined Engine
 
 - Description: A predefined [engine](Definitions.md#engine) MUST exist for testing and so that [Competition Developers](Actors.md#Competition-Developer) do not have to build their own.
 - Success Definition: Such an [engine](Definitions.md#engine) exists
@@ -181,24 +198,46 @@ For More Information:
 ## 1000: Performance Efficiency
 <!-- Performance Efficiency involves the optimization of resource utilization concerning the performance output of a system or product. -->
 
-### % 1100: Time Behaviour
+### % 1100: Time Behavior
 <!-- focuses on the system's response, processing times, and throughput rates during operational phases. -->
 
 #### 1110: Tournament Execution Speed
 
-- Description: Due to our tournament structure, we MUST prioritize speed in order to allow teams to have their bots run against those of other teams.
-- Success Definition: A tournament MUST complete within 10 minutes of the triggering submission
+- Description: Due to our [tournament](Definitions.md#tournament) structure, we MUST prioritize speed in order to allow [teams](Definitions.md#team) to have their [bots](Definitions.md#bot) run against those of other [teams](Definitions.md#team).
+- Success Definition: A [tournament](Definitions.md#tournament) MUST complete within 10 minutes of the triggering [submission](Definitions.md#submission)
+
+#### 1120: Match Execution Speed
+
+- Description: [Matches](Definitions.md#match) must be quick enough to run [tournaments](Definitions.md#tournament) on a regular interval during the [competition](Definitions.md#competition).
+- Success Definition: [Matches](Definitions.md#match) MUST evaluate a turn in 200 ms.
 
 ### % 1200: Resource Utilization
 <!-- concerns the effective utilization of resources, such as CPU, memory, and network bandwidth, during system operation. -->
+
+#### 1210: Memory Utilization
+
+- Description: A standard laptop which a college student might have should be able to run the [system](Definitions.md#system).
+- Success Definition: The [System](Definitions.md#system) MUST be able to meet time constraints with 8 gb of RAM alloted.
+
+#### 1220: CPU Utilization
+
+- Description: A standard laptop which a college student might have should be able to run the [system](Definitions.md#system).
+- Success Definition: The [System](Definitions.md#system) MUST be able to meet time constraints with 2 CPU cores.
+
+#### 1230: Disk Space
+
+- Description: Keeping disk space utilization low allows for more devices to run the [system](Definitions.md#system).
+- Success Definition: The [System](Definitions.md#system) MUST not use more than 500MB per [team](Definitons.md#team) + 500MB.
 
 ### % 1300: Capacity
 <!-- evaluates the system's maximum limits concerning parameters and its ability to meet them adequately. -->
 
 #### 1310: Number of Teams in a Competition
 
-- Description: A competition MUST be able to be run with at least 100 teams.
-- Success Definition: Performance requirements MUST be met with at least 100 teams in a competition.
+- Description: A [competition](Definitions.md#competition) MUST be able to be run with 100 [teams](Definitions.md#team).
+- Success Definition: Time requirements MUST be met with 100 [teams](Definitions.md#team) in a [competition](Definitions.md#competition).
+
+### % Client requirements?
 
 ---
 
@@ -208,10 +247,15 @@ For More Information:
 ### % 2100: Co-existence
 <!-- evaluates a product's ability to operate efficiently alongside other products without adverse effects. -->
 
+#### 2110: System Ports
+
+- Description: In order to not conflict with other products that utilize udp/tcp ports this system MUST be able to communicate through other udp/tcp ports, if specified.
+- Success Definition: Any udp/tcp ports used by the [system](Definitions.md#system) MUST be able to be changed and SHOULD not default to unrelated [well-known ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Well-known_ports).
+
 ### % 2200: Interoperability
 <!-- examines the seamless exchange of information and its utilization across multiple systems and software components. -->
 
-### 2210: Engine Implementation
+### ! 2210: Engine Implementation
 
 - Description: A team of [competition developers](Actors.md#competition-developer) MUST be able to build their own [engine](Definitions.md#engine) with any programming language they chose.
 - Success Definition: The [system](Definitions.md#system) has a well-defined API. NOTE: WELL-DEFINED IS NOT CONCRETE ENOUGH TO EVALUATE
@@ -223,6 +267,11 @@ For More Information:
 
 ### % 3100: Recognizability
 <!-- examines the user's ability to discern the product's suitability for their requirements. -->
+
+#### 3110: Project Repository Visibility
+
+- Description: As a free and open-source system, it is important that the code can be viewed.
+- Success Definition: The system code MUST be visible in a public repository.
 
 ### % 3200: Learnability
 <!-- evaluates the ease of learning to use the product or system effectively, particularly in emergencies. -->
@@ -255,14 +304,29 @@ For More Information:
 
 #### 3410: Administration Safety
 
-- Definition: Administration actions that are difficult to reverse MUST provide a safety feature.
+- Description: Administration actions that are difficult to reverse MUST provide a safety feature.
 - Success Definition: Administration actions with serious consequences MUST ask for confirmation with an in-depth review of the action.
 
 ### % 3500: UI Aesthetics
 <!-- evaluates the aesthetic appeal of the user interface and its impact on user engagement. -->
 
+#### 3510: Theming
+
+- Description: Themes help keep the UI cohesive and intuitive.
+- Success Definition: Frontend components MUST rely on theming to add colors to the UI.
+
 ### % 3600: Accessibility
 <!-- evaluates the product's usability across various user characteristics and capabilities. -->
+
+#### 3610: High Contrast Theme
+
+- Description: High contrast themes can help users with vision impairments.
+- Success Definition: Frontend components MUST have a high contrast theme.
+
+#### 3620: Dark & Light Modes
+
+- Description: Light and dark color schemes can be used to accommodate various accessibility needs and reduce eye strain.
+- Success Definition: Frontend components MUST have a light and dark mode.
 
 ---
 
@@ -272,13 +336,18 @@ For More Information:
 ### % 4100: Maturity
 <!-- evaluates the readiness of a system, product, or component to meet reliability needs satisfactorily. -->
 
+#### 4110: Release Model
+
+- Description: Users SHOULD have the choice of what release to use.
+- Success Definition: The system MUST have a Beta/Nightly, a Release Candidate, and a Production, releases; releasing features through each previous step before the next.
+
 ### % 4200: Availability
 <!-- assesses the operational state and accessibility of a system, product, or component. -->
 
 ### 4210: System Runtime
 
-- Description: The system MUST remain stable within expected competition durations.
-- Success Definition: The system MUST be able to run continually without notable degradation for 72 hours.
+- Description: The [system](Definitions.md#system) MUST remain stable within expected [competition](Definitions.md#competition) durations.
+- Success Definition: The [system](Definitions.md#system) MUST be able to run continually without notable degradation for 72 hours.
 
 ### % 4300: Fault Tolerance
 <!-- gauges the system's operational continuity despite potential hardware or software faults. -->
@@ -291,9 +360,9 @@ For More Information:
 ### % 4400: Recoverability
 <!-- evaluates the system's capability to retrieve data following interruptions or failures. -->
 
-#### ! 4410: Retry Policies
+#### 4410: Retry Policies
 
-- Description: Operations should be idempotent and have retry policies in the event of a potential transient error.
+- Description: Operations SHOULD be idempotent and have retry policies in the event of a potential transient error.
 - Success Definition: Potential areas for retry policies MUST be reviewed and evaluated during merge requests.
 
 #### 4420: Restarting
@@ -306,7 +375,7 @@ For More Information:
 ## 5000: Security
 <!-- Security refers to protecting information and data from potential security vulnerabilities. -->
 
-### 5020: Database Safety
+### ! 5020: Database Safety
 
 - dont get SQL injected. Wash yo ahh
 
@@ -316,10 +385,22 @@ For More Information:
 #### % 5110: Database Access
 
 - Description: Individuals who are **not** a [competition DBA](Actors.md#competition-dba-database-administrator) MUST NOT be able to access the [competition's](Definitions.md#competition) database.
-- Success Definition: Permissions are audited to ensure limited access
+- Success Definition: Database permissions are audited to ensure limited access
+
+#### % Hash Passwords
 
 ### % 5200: Integrity
-<!-- evaluates the system's capability to prevent unauthorized access or modification to data and programs. -->
+<!-- data should be trustworthy, complete, and remain stable unless intentionally changed. evaluates the system's capability to prevent unauthorized access or modification to data and programs. -->
+
+#### 5210: Containment
+
+- Description: Because breaches are bound to occur, separating components out into separate environments helps to mitigate impact.
+- Success Definition: A single security breach MUST NOT incur total access to the system.
+
+#### % 5220: Data Corruption
+
+- Description:
+- Success Definition:
 
 ### % 5300: Non-repudiation
 <!-- ensures that actions or events can be irrefutably proven to have occurred. -->
@@ -385,54 +466,62 @@ For More Information:
 ### % 5400: Accountability
 <!-- refers to the traceability of unauthorized actions back to their originator. -->
 
+#### 5410: User Identifier In Logs
+
+- Description: User information helps trace actions to users.
+- Success Definition: Logs MUST contain user identity, if available.
+
 ### % 5500: Authenticity
 <!-- concerns the verification of a subject or resource's identity. -->
+
+#### 5510: Log In System
+
+- Description: User authentication is important to limit foul play between competitors.
+- Success Definition: Users accessing system components SHOULD authenticate with username and password.
 
 ---
 
 ## 6000: Maintainability
 <!-- Maintainability evaluates a product or system's ease of modification to enhance, correct, or adapt to environmental or requirement changes. -->
 
-### 6100: Build Maintainability
-
-### % 6200: Testability
+### % 6100: Testability
 <!-- concerns the effectiveness of establishing test criteria and conducting tests to ascertain compliance. -->
 
-#### 6210: Test Execution
+#### 6110: Test Execution
 
 - Description: [System developers](Actors.md#system-developer) MUST be able to execute a test build using a single documented script or container.
 - Success Definition: A single documented script or container exists which satisfies the above condition.
 
-#### 6220: Automated Test Execution
+#### 6120: Automated Test Execution
 
 - Description: The test suite SHOULD be executed by an automated process (e.g. a Forgejo/GitHub Action triggered on pull request).
 - Success Definition: Repositories are audited for automated testability on a regular basis and exemptions are documented with justification.
 
-#### 6230: Applying Code Changes
+#### 6130: Applying Code Changes
 
 - Description: [System developers](Actors.md#system-developer) MUST be able to apply and test code changes locally.
 - Success Definition: [System](Definitions.md#system) components MUST be able to be built, run, tested, and validated without manual file manipulation.
 
-#### 6240: Local Validation
+#### 6140: Local Validation
 
 - Description: [System developers](Actors.md#system-developer) MUST be able to run the complete suite of local validation checks (such as tests and linting).
 - Success Definition: A single documented command or script exists which satisfies the above condition.
 
-#### 6241: Select Local Validation
+#### 6141: Select Local Validation
 
 - Description: [System developers](Actors.md#system-developer) MUST be able to run select local validation checks (such as tests and linting).
 - Success Definition: A single documented command or script exists which satisfies the above condition.
 
-### % 6300: Modularity
+### % 6200: Modularity
 <!-- assesses the extent to which system components can be altered with minimal impact on others. -->
 
-### % 6400: Reusability
+### % 6300: Reusability
 <!-- concerns the potential for assets to be utilized across multiple systems. -->
 
-### % 6500: Analysability
+### % 6400: Analysability
 <!-- evaluates the effectiveness of impact assessments on planned changes and the system's diagnosability for deficiencies. -->
 
-### % 6600: Modifiability
+### % 6500: Modifiability
 <!-- examines the ease of system modification without compromising quality. -->
 
 ---
@@ -445,7 +534,7 @@ For More Information:
 
 #### 7110: Operating Systems
 
-- Description: The system SHOULD work on all major operating systems (Windows, Linux, TempleOS, macOS...)
+- Description: The [system](Definitions.md#system) SHOULD work on all major operating systems (Windows, Linux, TempleOS, macOS...)
 - Success Definition: The [system](Definitions.md#system) works on all major operating systems.
 
 #### 7120: Host Machine Migration
@@ -481,7 +570,9 @@ For More Information:
 - Description: [System developers](Actors.md#system-developer) MUST be able to set up a fully working local environment.
 - Success Definition: A single documented script or procedure exists which satisfies the above condition.
 
-### % 7300: Replaceability
+### 7300: Replaceability
 <!-- gauges a product's potential to substitute another comparable product effectively. -->
+
+No requirements for replaceability.
 
 ---
