@@ -10,7 +10,7 @@
   - [Competition Developer --DONE](#competition-developer---done)
   - [Competition Playtester --DONE](#competition-playtester---done)
 - [During Competition](#during-competition)
-  - [Competition DBA --NEEDS REVIEW](#competition-dba---needs-review)
+  - [Competition DBA --NEEDS REVIEW](#competition-dba---done)
   - [Competition Host --DONE](#competition-host---done)
   - [Competitor --DONE](#competitor---done)
   - [Spectator --DONE](#spectator---done)
